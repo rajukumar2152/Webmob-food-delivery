@@ -100,7 +100,7 @@ router.post("/fileupload", upload.single("image"), function (req, res, next) {
     detail:detail , 
   });
 });
-
+// test 
 
 
 
