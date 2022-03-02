@@ -4,29 +4,30 @@ const Product = require("./../models/Product");
 const mongoose = require("mongoose") ; 
 const  User = require("./../models/User");
 
+const multer = require("multer");
 
 //Method 1 for adding product
-router.post("/add_product", async (req, res) => {
-  try {
-    const prodcut_item = {
-      dish: req.body.dish,
-      restaurant: req.body.restaurant,
-      description: req.body.description,
-      price: req.body.price,
-      category: req.body.category,
-    };
-    await Product.create(prodcut_item);
-    return res.json({
-      message: "Product  updated successfully",
-      reward: "message fom product schema  ",
-    });
-  } catch (error) {
-    console.error(req.path, error);
-    return res
-      .status(500)
-      .json({ message: "product  update error aa raha hain kahi " });
-  }
-});
+// router.post("/add_product", async (req, res) => {
+//   try {
+//     const prodcut_item = {
+//       dish: req.body.dish,
+//       restaurant: req.body.restaurant,
+//       description: req.body.description,
+//       price: req.body.price,
+//       category: req.body.category,
+//     };
+//     await Product.create(prodcut_item);
+//     return res.json({
+//       message: "Product  updated successfully",
+//       reward: "message fom product schema  ",
+//     });
+//   } catch (error) {
+//     console.error(req.path, error);
+//     return res
+//       .status(500)
+//       .json({ message: "product  update error aa raha hain kahi " });
+//   }
+// });
 
 //Method 2 : addingg prduct by another method
 router.post("/product2", async (req, res) => {
@@ -90,6 +91,80 @@ router.delete("/:id", async (req, res) => {
  
 // }
 // get_product() ;  // here function call 
+
+
+
+
+//  image upload by using multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/png"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 10,
+  },
+  fileFilter: fileFilter,
+});
+
+// router.get('/',function(req,res){
+//   res.sendFile(__dirname + './../server.html');
+
+// // });
+router.post("/fileupload", upload.single("image"), function (req, res, next) {
+  const filename = req.file.filename;
+  const detail = req.file ; 
+  res.json({
+    message: "Image Uploaded Successfully",
+    filename: filename,
+    detail:detail , 
+  });
+});
+
+
+router.post("/add_product",upload.single("image") ,async (req, res, next) => {
+  try {
+    const prodcut_item = {
+      dish: req.body.dish,
+      restaurant: req.body.restaurant,
+      description: req.body.description,
+      image : req.file.path  ,
+    };
+    await Product.create(prodcut_item);
+    return res.json({
+      message: "Product  updated successfully",
+      reward: "message fom product schema  ",
+    });
+  } catch (error) {
+    console.error(req.path, error);
+    return res
+      .status(500)
+      .json({ message: "product  update error aa raha hain kahi " });
+  }
+});
+
+
+
+
+
 
 module.exports = router;
 
