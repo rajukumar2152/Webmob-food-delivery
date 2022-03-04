@@ -95,21 +95,18 @@
 // kafi galti ke bad ye jake sahi hua 
 
 const express = require("express");
-// var passport = require("passport");
 const bcrypt = require("bcrypt");
-// const jsonwt = require("jsonwebtoken");
 
 const router = express.Router();
 
-// var User = require("./../modules/models/Signup");
 const  User = require("./../models/User");
-// var key = require("../mysetup/myurl");
 const saltRounds = 10;
+const jwt = require('jsonwebtoken');
 
 const mongoose = require("mongoose");
 
-router.post("/user", async (req, res) => {
-  var newUser = new User({
+router.post("/", async (req, res) => {
+  const  newUser = new User({
     name: req.body.name,
     email:req.body.email ,
     password: req.body.password
@@ -200,6 +197,69 @@ router.patch("/update/:id", async (req, res) => {
    }
 });
 
+
+// User authentication by using JWT token 
+
+router.post('/jwt/posts', verifyToken, (req, res) => {  
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if(err) {
+      res.sendStatus(403);
+    } else {
+      // const savedUser = new User({
+      //   name: authData.name, 
+      //   email : authData.authData,
+      //   password:authData.password
+      // })
+      // savedUser.save() ; 
+      // authData.save() ; 
+      res.json({
+        message: 'Post created...',
+        authData
+      });
+    }
+  });
+});
+
+router.post('/jwt/login', (req, res) => {
+  // Mock user
+  const user = new User({
+    name: req.body.name, 
+    email: req.body.email,
+    password:req.body.password ,
+   
+  })
+  user.save() ; 
+   
+  jwt.sign({user}, 'secretkey', { expiresIn: '300s' }, (err, token) => {
+    res.json({
+      token
+    });
+  });
+});
+
+// FORMAT OF TOKEN
+// Authorization: Bearer <access_token>
+
+// Verify Token
+function verifyToken(req, res, next) {
+  // Get auth header value
+  const bearerHeader = req.headers['authorization'];
+  // Check if bearer is undefined
+  if(typeof bearerHeader !== 'undefined') {
+    // Split at the space
+    const bearer = bearerHeader.split(' ');
+    // Get token from array
+    const bearerToken = bearer[1];
+    // Set the token
+    req.token = bearerToken;
+    // Next middleware
+    next();
+  } else {
+    // Forbidden
+    res.sendStatus(403);
+  }
+
+}
 
 
 module.exports = router;
