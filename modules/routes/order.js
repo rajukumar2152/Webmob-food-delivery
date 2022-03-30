@@ -48,7 +48,7 @@ router.patch("/update/:id", async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(404).send(`No Food  with id: ${id}`);
 
-    const result = await Food.findByIdAndUpdate(id, updates, options);
+    const result = await Order.findByIdAndUpdate(id, updates, options);
    
     res.send(result);
   } catch (error) {

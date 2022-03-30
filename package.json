@@ -2,8 +2,11 @@
   "name": "agasthya-be",
   "version": "0.0.0",
   "private": true,
+  "main": "server.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node server.js",
+    "test": "jest",
+    "test-w": "jest --watchAll"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -15,8 +18,15 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb-memory-server": "^8.4.0",
     "mongoose": "^5.12.9",
     "morgan": "~1.9.1",
-    "multer": "^1.4.4"
+    "multer": "^1.4.4",
+    "request": "^2.88.2",
+    "supertest": "^6.2.2"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3"
   }
 }

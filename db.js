@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 mongoose
-    .connect("mongodb+srv://raju:raju@cluster1.cpels.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
+    .connect(
+        "mongodb+srv://raju:raju@cluster1.cpels.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        // "mongodb://localhost:27017/JestDBtestprod",
+         {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
