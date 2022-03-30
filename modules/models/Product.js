@@ -15,40 +15,40 @@ const productSchema = mongoose.Schema(
 		image :{
 			type: String , 
 			required :true 
-		}
-		// description: {
-		// 	type: String,
-		// 	// text: true,
-		// 	required: true,
-		// },
-		// price: {
-		// 	type: Number,
-		// 	required: true,
-		// },
+		},
+		description: {
+			type: String,
+			// text: true,
+			required: true,
+		},
+		price: {
+			type: Number,
+			required: true,
+		},
 		
-		// category: {
-		// 	type: String,
-		// 	// text: true,
-		// 	required: true,
-		// },
-		// reviews: [
-		// 	{
-		// 		customer: {
-		// 			type: mongoose.Schema.Types.ObjectId,
-		// 			ref: 'User'
-		// 		},
-		// 		comment: String,
-		// 		stars: Number,
-		// 		commentedAt: {
-		// 			type: Date,
-		// 			default: Date.now() 
-		// 		}
-		// 	}
-		// ],
-		// averageRating: {
-		// 	type: Object,
-		// 	default: 0
-		// },
+		category: {
+			type: String,
+			// text: true,
+			required: true,
+		},
+		reviews: [
+			{
+				customer: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'User'
+				},
+				comment: String,
+				stars: Number,
+				// commentedAt: {
+				// 	type: Date,
+				// 	default: Date.now() 
+				// }
+			}
+		],
+		averageRating: {
+			type: Object,
+			default: 0
+		},
 	// { timestamps: true } 
     }
 );
