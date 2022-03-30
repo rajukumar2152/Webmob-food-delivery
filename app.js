@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 
 const LectureController = require("./modules/controllers/LiveLectureControllers");
 const product = require("./modules/routes/product");
-const signup = require("./modules/routes/User");
+const user = require("./modules/routes/user");
 const category = require("./modules/routes/category") ; 
 const restaurant = require("./modules/routes/restaurant");
 const order = require("./modules/routes/order");
@@ -22,7 +22,7 @@ const food = require("./modules/routes/food");
 const formData = require("./modules/routes/formData");
 app.use("/api", LectureController);
 app.use("/product" ,product ); 
-app.use("/signup" ,signup );
+app.use("/user" ,user );
 app.use("/category" ,category );
 app.use("/restaurant" ,restaurant );
 app.use("/order" ,order );
